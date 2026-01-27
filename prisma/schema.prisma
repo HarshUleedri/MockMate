@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Question {
+ id Int @id @default(autoincrement())
+ question String
+ referenceAnswer String
+ level Level @default(EASY)
+ tags String[]
+ sessionQuestion SessionQuestion[]
+ answer Answer[]
+
+}
+
+
+model InterviewSession {
+  id Int @id @default(autoincrement())
+  sessionId String @unique
+  createAt DateTime @default(now())
+  sessionQuestion SessionQuestion[]
+  answer Answer[]
+}
+
+model SessionQuestion {
+  id Int @id @default(autoincrement())
+  sessionId Int
+  questionId Int
+  session InterviewSession @relation(fields: [sessionId], references: [id])
+  question Question @relation(fields: [questionId], references: [id])
+  @@unique([sessionId,questionId])
+
+}
+model Answer {
+  id Int @id @default(autoincrement())
+  answer String
+  sessionId  Int
+  questionId Int  
+  session InterviewSession @relation(fields: [sessionId], references: [id])
+  question Question @relation(fields: [questionId], references: [id])
+  @@unique([sessionId , questionId])
+}
+
+enum Level {
+  EASY
+  MEDIUM
+  HARD
+}
