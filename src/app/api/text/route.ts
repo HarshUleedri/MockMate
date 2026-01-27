@@ -1,6 +1,6 @@
 export const runtime = 'nodejs';
+import { Level } from '@/generated/prisma/enums';
 import prisma from '@/lib/prisma';
-import { Level } from '@/generated/prisma/client';
 
 const javascriptQuestions: {
   question: string;
