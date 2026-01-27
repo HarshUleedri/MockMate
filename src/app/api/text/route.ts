@@ -1,3 +1,4 @@
+export const runtime = 'nodejs';
 import prisma from '@/lib/prisma';
 import { Level } from '@/generated/prisma/client';
 
@@ -357,8 +358,6 @@ const javascriptQuestions: {
 ];
 
 export async function GET() {
-  
-
   const res = await prisma.question.findMany({
     where: {},
   });

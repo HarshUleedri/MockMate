@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import { Level } from '@/generated/prisma/enums';
 import prisma from '@/lib/prisma';
 

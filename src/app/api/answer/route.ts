@@ -1,6 +1,7 @@
+export const runtime = 'nodejs';
+
 import imagekit from '@/lib/imagekit';
 import prisma from '@/lib/prisma';
-import { vendored } from 'next/dist/server/route-modules/pages/module.compiled';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
