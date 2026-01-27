@@ -1,7 +1,8 @@
 export const runtime = 'nodejs';
 
-import { Level } from '@/generated/prisma/enums';
+// import { Level } from '@/generated/prisma/enums';
 import prisma from '@/lib/prisma';
+import { Level } from '@prisma/client';
 
 import { NextResponse } from 'next/server';
 
