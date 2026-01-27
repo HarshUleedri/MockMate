@@ -1,12 +1,12 @@
 'use client';
 
-import { Level } from '@/generated/prisma/enums';
 import { LiveCamera } from './LiveCamera';
 import { useRef, useState } from 'react';
 import { MediaPermissionError } from './MediaPermissionError';
 import { Button } from '@/components/ui/button';
 import { Loader2Icon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { Level } from '@prisma/client';
 
 export type CameraError =
   | 'PERMISSION_DENIED'
