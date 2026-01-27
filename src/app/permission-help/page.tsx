@@ -1,3 +1,3 @@
-export const PermissionHelp = () => {
-  return <div>PermissionHelp</div>;
-};
+export default function PermissionHelp() {
+  return <div>Permission Help</div>;
+}
