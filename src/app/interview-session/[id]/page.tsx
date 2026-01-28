@@ -1,13 +1,12 @@
 import prisma from '@/lib/prisma';
-import { LiveCamera } from './components/LiveCamera';
 import { InterviewQuestionList } from './components/InterviewQuestionList';
 
 export default async function InterviewSession({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = await params;
+  const { id } = params;
 
   const sessionQuestionsData = await prisma.interviewSession.findUnique({
     where: {

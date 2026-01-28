@@ -8,9 +8,9 @@ import { notFound } from 'next/navigation';
 export default async function Completed({
   params,
 }: {
-  params: Promise<{ sessionid: string }>;
+  params: { sessionid: string };
 }) {
-  const { sessionid } = await params;
+  const { sessionid } = params;
 
   const session = await prisma.interviewSession.findFirst({
     where: {
