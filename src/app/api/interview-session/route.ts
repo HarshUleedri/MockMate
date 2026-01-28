@@ -9,7 +9,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   const { level, subjectName } = await req.json();
   const encryptId = crypto.randomUUID();
-  const redirectURL = new URL(`/interview-session/${encryptId}`, req.url);
+  // const redirectURL = new URL(`/interview-session/${encryptId}`, req.url);
 
   const levels = ['EASY', 'MEDIUM', 'HARD'] as const;
   const TOTALQUESTIONS = 20;
@@ -80,6 +80,6 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({
-    redirectURL,
+    redirectURL: `/interview-session/${encryptId}`,
   });
 }
