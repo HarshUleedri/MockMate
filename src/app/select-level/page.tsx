@@ -10,13 +10,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useSubject } from '@/Context/SubjectContext';
-import { Play, Rewind } from 'lucide-react';
+import { Play } from 'lucide-react';
 
 export default function SelectLevel() {
   const { level, setLevel, subjectName } = useSubject();
 
   const handleStartTest = async () => {
-    const baseUrl = process.env.BASE_URL ?? 'http://localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
 
     const res = await fetch(`${baseUrl}/api/interview-session`, {
       method: 'POST',
