@@ -4,9 +4,9 @@ import { InterviewQuestionList } from './components/InterviewQuestionList';
 export default async function InterviewSession({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
 
   const sessionQuestionsData = await prisma.interviewSession.findUnique({
     where: {
