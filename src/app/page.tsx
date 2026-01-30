@@ -1,8 +1,14 @@
 import { Button } from '@/components/ui/button';
+import { auth } from '@/lib/auth';
 import { MessageCircle } from 'lucide-react';
+import { headers } from 'next/headers';
 import Link from 'next/link';
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth.api.getSession({
+    headers: await headers(), // you need to pass the headers object.
+  });
+
   return (
     <section className="mx-auto min-h-screen max-w-6xl text-center">
       <h1 className="mt-12 mb-2 text-2xl font-medium">MockMate</h1>

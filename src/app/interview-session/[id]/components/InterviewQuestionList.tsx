@@ -4,7 +4,7 @@ import { LiveCamera } from './LiveCamera';
 import { useRef, useState } from 'react';
 import { MediaPermissionError } from './MediaPermissionError';
 import { Button } from '@/components/ui/button';
-import { Loader2Icon } from 'lucide-react';
+import { ChevronDown, Loader2Icon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Level } from '@prisma/client';
 
@@ -49,6 +49,7 @@ export const InterviewQuestionList = ({
 
   //loading state
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showAnswer, setShowAnswer] = useState<boolean>(false);
 
   //hook
   const router = useRouter();
@@ -129,6 +130,18 @@ export const InterviewQuestionList = ({
                 <span>{questionNumber + 1}.</span>
                 <span>{questions[questionNumber].question.question}</span>
               </p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Button
+              size={"sm"}
+                className="w-fit items-center"
+                onClick={() => setShowAnswer((prev) => !prev)}
+              >
+                Show answer <ChevronDown />
+              </Button>
+              {showAnswer && (
+                <p>{questions[questionNumber].question.referenceAnswer}</p>
+              )}
             </div>
             <LiveCamera
               stream={stream}

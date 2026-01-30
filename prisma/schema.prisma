@@ -13,46 +13,110 @@ datasource db {
 }
 
 model Question {
- id Int @id @default(autoincrement())
- question String
- referenceAnswer String
- level Level @default(EASY)
- tags String[]
- sessionQuestion SessionQuestion[]
- answer Answer[]
+  id              Int               @id @default(autoincrement())
+  question        String
+  referenceAnswer String
+  level           Level             @default(EASY)
+  tags            String[]
+  sessionQuestion SessionQuestion[]
+  answer          Answer[]
 
 }
 
-
 model InterviewSession {
-  id Int @id @default(autoincrement())
-  sessionId String @unique
-  createAt DateTime @default(now())
+  id              Int               @id @default(autoincrement())
+  sessionId       String            @unique
+  createAt        DateTime          @default(now())
   sessionQuestion SessionQuestion[]
-  answer Answer[]
+  answer          Answer[]
 }
 
 model SessionQuestion {
-  id Int @id @default(autoincrement())
-  sessionId Int
-  questionId Int
-  session InterviewSession @relation(fields: [sessionId], references: [id])
-  question Question @relation(fields: [questionId], references: [id])
-  @@unique([sessionId,questionId])
-
-}
-model Answer {
-  id Int @id @default(autoincrement())
-  answer String
+  id         Int              @id @default(autoincrement())
   sessionId  Int
-  questionId Int  
-  session InterviewSession @relation(fields: [sessionId], references: [id])
-  question Question @relation(fields: [questionId], references: [id])
-  @@unique([sessionId , questionId])
+  questionId Int
+  session    InterviewSession @relation(fields: [sessionId], references: [id])
+  question   Question         @relation(fields: [questionId], references: [id])
+
+  @@unique([sessionId, questionId])
+}
+
+model Answer {
+  id         Int              @id @default(autoincrement())
+  answer     String
+  sessionId  Int
+  questionId Int
+  session    InterviewSession @relation(fields: [sessionId], references: [id])
+  question   Question         @relation(fields: [questionId], references: [id])
+
+  @@unique([sessionId, questionId])
 }
 
 enum Level {
   EASY
   MEDIUM
   HARD
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }
