@@ -25,10 +25,12 @@ model Question {
 
 model InterviewSession {
   id              Int               @id @default(autoincrement())
+  userId String 
   sessionId       String            @unique
   createAt        DateTime          @default(now())
   sessionQuestion SessionQuestion[]
   answer          Answer[]
+  user  User     @relation(fields: [userId], references: [id])
 }
 
 model SessionQuestion {
@@ -68,6 +70,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  interviewSessions InterviewSession[]
 
   @@unique([email])
   @@map("user")

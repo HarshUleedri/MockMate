@@ -1,5 +1,5 @@
 export const runtime = 'nodejs';
-
+import { getCurrentUser } from '@/lib/auth';
 // import { Level } from '@/generated/prisma/enums';
 import prisma from '@/lib/prisma';
 import { Level } from '@prisma/client';
@@ -8,9 +8,22 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   const { level, subjectName } = await req.json();
-  const encryptId = crypto.randomUUID();
-  // const redirectURL = new URL(`/interview-session/${encryptId}`, req.url);
 
+  // const redirectURL = new URL(`/interview-session/${encryptId}`, req.url);
+   
+  const  user = await getCurrentUser()
+  const userId = user?.id;
+  if (!userId) {
+    return NextResponse.json(
+      {
+        error: 'unaunthenticated',
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+  const encryptId = crypto.randomUUID();
   const levels = ['EASY', 'MEDIUM', 'HARD'] as const;
   const TOTALQUESTIONS = 20;
 
@@ -20,6 +33,7 @@ export async function POST(req: Request) {
   const sessionData = await prisma.interviewSession.create({
     data: {
       sessionId: encryptId,
+      userId: userId,
     },
   });
 

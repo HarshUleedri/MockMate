@@ -17,5 +17,5 @@ export default async function ProtectedLayout({
     return <div>Unauthorized</div>;
   }
 
-  return <>jhlasdf{children}</>;
+  return <>{children}</>;
 }
