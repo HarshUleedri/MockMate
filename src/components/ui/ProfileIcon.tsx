@@ -14,6 +14,7 @@ import {
 import { signOut } from '@/lib/auth-client';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export interface UserType {
   id: string;
@@ -31,12 +32,14 @@ interface ProfileType {
 }
 
 export default function Profile({ user }: ProfileType) {
+  const router = useRouter();
+
   const handleLogout = async () => {
     try {
       await signOut({
         fetchOptions: {
           onSuccess: () => {
-            redirect('/login'); // redirect to login page
+            router.replace('/signin'); // redirect to login page
           },
         },
       });

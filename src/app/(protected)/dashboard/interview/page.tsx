@@ -20,10 +20,16 @@ export default async function Interviews() {
       ) : (
         userInterviews.map((interview, idx) => (
           <Link
-            className="bg-background hover:bg-secondary cursor-pointer rounded-md border px-4 py-2 text-xl font-semibold lg:px-8"
+            className="bg-background hover:bg-secondary flex cursor-pointer items-center justify-between rounded-md border px-4 py-2 text-lg font-semibold lg:px-8"
             href={`interview/${interview.sessionId}`}
           >
-            Interview Session {idx + 1}
+            <span className="">Interview Session {idx + 1}</span>
+            <span className="text-sm font-semibold">
+              {new Date(interview.createAt).toLocaleString('en-IN', {
+                dateStyle: 'medium',
+                timeStyle: 'short',
+              })}
+            </span>
           </Link>
         ))
       )}

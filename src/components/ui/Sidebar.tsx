@@ -8,7 +8,7 @@ export default function Sidebar() {
         <Link href={'/dashboard'}>Dashboard</Link>
       </Button>
       <Button variant={'ghost'} size={'sm'}>
-        <Link href={'dashboard/interview'}>Interviews</Link>
+        <Link href={'/dashboard/interview'}>Interviews</Link>
       </Button>
     </div>
   );

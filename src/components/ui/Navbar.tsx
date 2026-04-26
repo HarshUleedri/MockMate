@@ -1,18 +1,25 @@
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+'use client';
 import Link from 'next/link';
 import { Button } from './button';
 import Profile, { UserType } from './ProfileIcon';
+import { usePathname } from 'next/navigation';
+import { useSession } from '@/lib/auth-client';
 
-async function Navbar() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
+function Navbar() {
+  const { data: session } = useSession();
   const user: UserType | undefined = session?.user;
 
+  const pathname = usePathname();
+
+  const doNotIncludeNav = ['/signin'];
+
+  console.log(pathname);
+  if (doNotIncludeNav.includes(pathname)) {
+    return null;
+  }
+
   return (
-    <div className="flex items-center justify-between px-20 py-4">
+    <div className="flex items-center justify-between border-b border-gray-200 shadow-xs px-20 py-4">
       <div>
         <Link href={'/'} className="text-lg font-semibold">
           MockMate

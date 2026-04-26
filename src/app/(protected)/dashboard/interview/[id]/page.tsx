@@ -60,6 +60,12 @@ export default async function singleInterview({
             </AccordionTrigger>
 
             <AccordionContent>
+              <div className="mb-4 border-y border-black/20 py-2">
+                <p className="text-base font-semibold">Refference Answer :</p>
+                <p className="text-sm font-medium wrap-break-word text-black/30">
+                  {question.referenceAnswer}
+                </p>
+              </div>
               {question.userAnswer ? (
                 <video
                   src={question.userAnswer}

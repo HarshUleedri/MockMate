@@ -7,11 +7,11 @@ import { Level } from '@prisma/client';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-  const { level, subjectName } = await req.json();
+  const { subjectName } = await req.json();
 
   // const redirectURL = new URL(`/interview-session/${encryptId}`, req.url);
-   
-  const  user = await getCurrentUser()
+
+  const user = await getCurrentUser();
   const userId = user?.id;
   if (!userId) {
     return NextResponse.json(
@@ -20,6 +20,16 @@ export async function POST(req: Request) {
       },
       {
         status: 401,
+      }
+    );
+  }
+  if (!subjectName) {
+    return NextResponse.json(
+      {
+        error: 'subject name is required ',
+      },
+      {
+        status: 400,
       }
     );
   }

@@ -50,6 +50,7 @@ export const InterviewQuestionList = ({
   //loading state
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   //hook
   const router = useRouter();
@@ -60,24 +61,6 @@ export const InterviewQuestionList = ({
       setQuestionNumber((prev) => prev + 1);
     }
     return;
-  };
-
-  const startRecording = () => {
-    if (!stream) return;
-    recordingChunks.current = [];
-    setIsRecording(true);
-    const recorder = new MediaRecorder(stream);
-    answerRecordingRef.current = recorder;
-
-    recorder.ondataavailable = (e) => recordingChunks.current.push(e.data);
-
-    recorder.onstop = () => {
-      const blob = new Blob(recordingChunks.current, { type: 'video/webm' });
-      setIsRecording(false);
-      submitblog(blob);
-    };
-
-    recorder.start();
   };
   const submitblog = async (videoBlob: Blob) => {
     const formData = new FormData();
@@ -109,9 +92,28 @@ export const InterviewQuestionList = ({
         );
       }
     } catch (error) {
+      console.log(error)
+      setError("Something went Wrong please answer again.")
     } finally {
       setIsLoading(false);
     }
+  };
+  const startRecording = () => {
+    if (!stream) return;
+    recordingChunks.current = [];
+    setIsRecording(true);
+    const recorder = new MediaRecorder(stream);
+    answerRecordingRef.current = recorder;
+
+    recorder.ondataavailable = (e) => recordingChunks.current.push(e.data);
+
+    recorder.onstop = () => {
+      const blob = new Blob(recordingChunks.current, { type: 'video/webm' });
+      setIsRecording(false);
+      submitblog(blob);
+    };
+
+    recorder.start();
   };
 
   const submitAnswer = () => {
@@ -133,7 +135,7 @@ export const InterviewQuestionList = ({
             </div>
             <div className="flex flex-col gap-2">
               <Button
-              size={"sm"}
+                size={'sm'}
                 className="w-fit items-center"
                 onClick={() => setShowAnswer((prev) => !prev)}
               >
@@ -172,6 +174,7 @@ export const InterviewQuestionList = ({
             >
               Next Question
             </Button> */}
+            {error && <p role="alert" className="text-red-600 text-sm "> {error}</p>}
           </div>
           <div className="w-full border-y-2 px-4 py-20 lg:h-screen lg:border-x-2">
             <div className="flex flex-wrap gap-4">
